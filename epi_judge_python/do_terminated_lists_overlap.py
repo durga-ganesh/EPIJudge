@@ -5,10 +5,16 @@ from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
-
+# DG O(m+n) time and O(1) space
 def overlapping_no_cycle_lists(l0: ListNode, l1: ListNode) -> ListNode:
-    # TODO - you fill in here.
-    return ListNode()
+    p0, p1 = l0, l1
+    while True:
+        if p0 is p1: return p0
+        if not p0: p0 = l1
+        if not p1: p1 = l0
+        p0, p1 = p0.next, p1.next
+    
+    return None
 
 
 @enable_executor_hook

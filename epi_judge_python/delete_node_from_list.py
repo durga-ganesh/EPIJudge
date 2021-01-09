@@ -6,8 +6,10 @@ from test_framework.test_utils import enable_executor_hook
 
 
 # Assumes node_to_delete is not tail.
+# DG O(1) time and space
 def deletion_from_list(node_to_delete: ListNode) -> None:
-    # TODO - you fill in here.
+    node_to_delete.data = node_to_delete.next.data
+    node_to_delete.next = node_to_delete.next.next
     return
 
 

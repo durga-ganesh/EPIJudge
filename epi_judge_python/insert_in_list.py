@@ -6,8 +6,11 @@ from test_framework.test_utils import enable_executor_hook
 
 
 # Insert new_node after node.
+# DG O(1) time and space complexity
 def insert_after(node: ListNode, new_node: ListNode) -> None:
-    # TODO - you fill in here.
+    if not node or not new_node: return
+    new_node.next = node.next
+    node.next = new_node
     return
 
 

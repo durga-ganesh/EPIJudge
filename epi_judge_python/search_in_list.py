@@ -1,10 +1,14 @@
 from list_node import ListNode
 from test_framework import generic_test
 
-
+# DG O(n) time and O(1) space
 def search_list(L: ListNode, key: int) -> ListNode:
-    # TODO - you fill in here.
-    return ListNode()
+    while L:
+        if L.data == key:
+            return L
+        else:
+            L = L.next
+    return None
 
 
 def search_list_wrapper(L, key):

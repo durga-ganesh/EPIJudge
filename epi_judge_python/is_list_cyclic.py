@@ -6,10 +6,20 @@ from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
-
+# DG O(n) time and O(1) space
+# slow != fast doesn't work. Refer to __eq__ is list_node.py
 def has_cycle(head: ListNode) -> Optional[ListNode]:
-    # TODO - you fill in here.
-    return None
+    if not head or not head.next: return None
+    slow, fast = head.next, head.next.next
+    while fast and fast.next and slow is not fast:
+        slow, fast = slow.next, fast.next.next
+    
+    if not fast or not fast.next: return None
+    
+    slow = head
+    while slow is not fast:
+        slow, fast = slow.next, fast.next
+    return slow
 
 
 @enable_executor_hook

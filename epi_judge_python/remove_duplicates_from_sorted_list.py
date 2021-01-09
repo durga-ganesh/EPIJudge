@@ -3,10 +3,16 @@ from typing import Optional
 from list_node import ListNode
 from test_framework import generic_test
 
-
-def remove_duplicates(L: ListNode) -> Optional[ListNode]:
-    # TODO - you fill in here.
-    return None
+# DG O(n) time and O(1) space
+def remove_duplicates(head: ListNode) -> Optional[ListNode]:
+    if not head: return head
+    L = head
+    while L and L.next:
+        if L.data == L.next.data:
+            L.next = L.next.next
+        else:
+            L = L.next
+    return head
 
 
 if __name__ == '__main__':

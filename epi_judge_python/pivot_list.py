@@ -6,10 +6,31 @@ from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
+# DG O(n) time and O(1) space PRAMP
+def list_pivoting(L: ListNode, x: int) -> Optional[ListNode]:
+    if not L: return L
 
-def list_pivoting(l: ListNode, x: int) -> Optional[ListNode]:
-    # TODO - you fill in here.
-    return None
+    dummyLe = tailLe = ListNode()
+    dummyEq = tailEq = ListNode()
+    dummyGr = tailGr = ListNode()
+
+    while L:
+        if L.data < x:
+            tailLe.next = L
+            tailLe = tailLe.next
+        elif L.data == x:
+            tailEq.next = L
+            tailEq = tailEq.next
+        else:
+            tailGr.next = L
+            tailGr = tailGr.next
+        L = L.next
+    
+    tailLe.next = tailEq.next = tailGr.next = None
+    tailEq.next = dummyGr.next
+    tailLe.next = dummyEq.next # Careful
+
+    return dummyLe.next
 
 
 def linked_to_list(l):
