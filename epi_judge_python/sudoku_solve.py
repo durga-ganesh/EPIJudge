@@ -7,10 +7,40 @@ from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
-
+# DG refer to textbook for complexity
 def solve_sudoku(partial_assignment: List[List[int]]) -> bool:
-    # TODO - you fill in here.
-    return True
+    
+    def isSafe(G:List[List[int]], row:int, col:int, val:int) -> bool:
+        for r in range(9):
+            if G[r][col] == val: return False
+        for c in range(9):
+            if G[row][c] == val: return False
+
+        r, c = row // 3, col // 3
+        for i in range(3*r, 3*(r+1)):
+            for j in range(3*c, 3*(c+1)):
+                if i == row and j == col: continue
+                if G[i][j] == val: return False
+        
+        return True
+
+    def solve_sudoku_helper(G:List[List[int]], idx:int=0):
+        row, col = idx // 9, idx % 9
+        if row >= 9 or col >= 9: return True
+        
+        if G[row][col] != 0:
+            return solve_sudoku_helper(G, idx+1)
+
+        for val in range(1, 10):
+            if isSafe(G, row, col, val):
+                G[row][col] = val
+                if solve_sudoku_helper(G, idx+1):
+                    return True
+                G[row][col] = 0 # back-track
+            
+        return False
+    
+    return solve_sudoku_helper(partial_assignment)
 
 
 def assert_unique_seq(seq):

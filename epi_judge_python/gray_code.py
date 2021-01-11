@@ -5,10 +5,27 @@ from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
-
+# DG O(2^n) time and space
 def gray_code(num_bits: int) -> List[int]:
-    # TODO - you fill in here.
-    return []
+    def gray_code_helper(n:int):
+        if n == 1:
+            return ["0", "1"]
+
+        L = gray_code_helper(n-1)
+        return ["0"+s for s in L] + ["1"+s for s in L[::-1]]
+
+    if num_bits == 0: return [""]
+    L = gray_code_helper(num_bits)
+    return [int(s, 2) for s in L]
+        
+
+def differ_by_1_bit(a, b):
+    x = a ^ b
+    if x == 0:
+        return False
+    while x & 1 == 0:
+        x >>= 1
+    return x == 1
 
 
 @enable_executor_hook

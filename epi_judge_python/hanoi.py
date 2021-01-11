@@ -7,10 +7,19 @@ from test_framework.test_utils import enable_executor_hook
 
 NUM_PEGS = 3
 
-
+# DG O(2^n) time and O(1) space. Interesting time complexity analysis
 def compute_tower_hanoi(num_rings: int) -> List[List[int]]:
-    # TODO - you fill in here.
-    return []
+    def compute_tower_hanoi_helper(L:list, _from:int,\
+                    _to:int, _help:int, _num:int) -> None:
+        if _num == 1:
+            L.append([_from, _to])
+            return
+        compute_tower_hanoi_helper(L, _from, _help, _to, _num-1)
+        L.append([_from, _to])
+        compute_tower_hanoi_helper(L, _help, _to, _from, _num-1)
+    L = []
+    compute_tower_hanoi_helper(L, 0, 1, 2, num_rings)
+    return L
 
 
 @enable_executor_hook
