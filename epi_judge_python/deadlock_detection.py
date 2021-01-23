@@ -9,10 +9,21 @@ class GraphVertex:
     def __init__(self) -> None:
         self.edges: List['GraphVertex'] = []
 
+INPROGRESS, DONE = range(2)
 
+# DG O(|V|+|E|) time and O(|V|) space
 def is_deadlocked(graph: List[GraphVertex]) -> bool:
-    # TODO - you fill in here.
-    return True
+    def hasCycle(G, src, stateMap=dict()):
+        if src in stateMap:
+            if stateMap[src] == DONE: return False
+            else: return True # reached an in-progress node
+        stateMap[src] = INPROGRESS
+        ret = any([hasCycle(G, _n, stateMap) for _n in src.edges])
+        stateMap[src] = DONE
+        return ret
+
+    stateMap = dict()
+    return any([hasCycle(graph, v, stateMap) for v in graph])
 
 
 @enable_executor_hook

@@ -10,10 +10,17 @@ class GraphVertex:
         self.label = label
         self.edges: List['GraphVertex'] = []
 
+# DG Graph DFS O(|V|+|E|) time and O(|V|) space
+def clone_graph(v: GraphVertex, nodeMap=dict()) -> GraphVertex:
+    # Recursive DFS
+    if v in nodeMap:
+        return nodeMap[v]
+    nodeMap[v] = GraphVertex(label=v.label)
+    for _n in v.edges:
+        nodeMap[v].edges.append(clone_graph(_n, nodeMap))
+    return nodeMap[v]
 
-def clone_graph(graph: GraphVertex) -> GraphVertex:
-    # TODO - you fill in here.
-    return GraphVertex(0)
+    # PRAMP Iterative DFS/BFS
 
 
 def copy_labels(edges):

@@ -11,11 +11,30 @@ WHITE, BLACK = range(2)
 
 Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
 
-
+# DG PRAMP O(|V| + |E|) time and O(|V|) space
 def search_maze(maze: List[List[int]], s: Coordinate,
                 e: Coordinate) -> List[Coordinate]:
-    # TODO - you fill in here.
-    return []
+    def DFS(G, src:Coordinate, dest:Coordinate, path=[], visited=set()):
+        if src == dest:
+            path.append(dest) # do not miss this
+            return True
+        if src in visited: return False
+        if not (0 <= src.x < len(G)) or not (0 <= src.y < len(G[0])): return False
+        if G[src.x][src.y] == BLACK: return False
+
+        visited.add(src)
+        path.append(src)
+        for x, y in [(src.x-1, src.y), (src.x+1, src.y),\
+                     (src.x, src.y-1), (src.x, src.y+1)]:
+            if DFS(G, Coordinate(x, y), dest, path, visited):
+                return True
+        path.pop()
+        return False
+                
+    path = []
+    if not maze or not maze[0]: return path
+    DFS(maze, s, e, path)
+    return path
 
 
 def path_element_is_feasible(maze, prev, cur):

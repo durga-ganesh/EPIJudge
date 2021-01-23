@@ -11,10 +11,21 @@ class GraphVertex:
         # Set max_distance = 0 to indicate unvisitied vertex.
         self.max_distance = 0
 
-
+# DG O(|V|+|E|) time and O(|V|) space PRAMP
 def find_largest_number_teams(graph: List[GraphVertex]) -> int:
-    # TODO - you fill in here.
-    return 0
+    def DFS(node: GraphVertex):
+        if node.max_distance != 0: return
+
+        for _n in node.edges:
+            DFS(_n)
+            node.max_distance = max(node.max_distance, 1+_n.max_distance)
+
+    max_len = 0
+    for v in graph:
+        if v.max_distance == 0:
+            DFS(v)
+            max_len = max(max_len, v.max_distance)
+    return 1+max_len # numNodes in the longest path
 
 
 @enable_executor_hook
