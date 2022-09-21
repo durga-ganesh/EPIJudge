@@ -1,9 +1,14 @@
 from test_framework import generic_test
 
-
+# DG O(m+n) time and space
 def is_letter_constructible_from_magazine(letter_text: str,
                                           magazine_text: str) -> bool:
-    # TODO - you fill in here.
+    import collections
+    magazineMap = collections.Counter(magazine_text)
+    letterMap   = collections.Counter(letter_text)
+
+    for k, v in letterMap.items():
+        if v > magazineMap[k]: return False
     return True
 
 

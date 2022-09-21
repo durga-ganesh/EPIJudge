@@ -6,13 +6,24 @@ from test_framework import generic_test
 from test_framework.binary_tree_utils import must_find_node
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
+import collections
 
-
+# DG O(depth from LCA) time and space PRAMP
 def lca(node0: BinaryTreeNode,
         node1: BinaryTreeNode) -> Optional[BinaryTreeNode]:
-    # TODO - you fill in here.
-    return None
+    m = collections.defaultdict(set)
 
+    while True:
+        if node0 == node1: return node0
+        if node0 in m['node1']: return node0
+        if node1 in m['node0']: return node1
+
+        m['node0'].add(node0)
+        m['node1'].add(node1)
+
+        if node0.parent: node0 = node0.parent
+        if node1.parent: node1 = node1.parent
+    return None
 
 @enable_executor_hook
 def lca_wrapper(executor, tree, node0, node1):

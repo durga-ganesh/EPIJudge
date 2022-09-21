@@ -1,9 +1,14 @@
 from test_framework import generic_test
 
-
+# DG O(n) time and space
 def can_form_palindrome(s: str) -> bool:
-    # TODO - you fill in here.
-    return True
+    import collections
+    m = collections.Counter(s)
+
+    oddCount = 0
+    for _, val in m.items():
+        if val % 2 == 1: oddCount += 1
+    return oddCount <= 1
 
 
 if __name__ == '__main__':
